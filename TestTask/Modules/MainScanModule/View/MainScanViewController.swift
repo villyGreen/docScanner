@@ -23,6 +23,9 @@ final class MainScanViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, ScanDocument>?
     var snapShot = NSDiffableDataSourceSnapshot<Section, ScanDocument>()
     
+    // MARK: - Private properties
+    var editState: EditState?
+    
     private var mainTabBar: TabBarViewController {
         return (self.tabBarController as? TabBarViewController) ?? TabBarViewController()
     }
@@ -132,7 +135,8 @@ private extension MainScanViewController {
         collectionView?.register(MainScanCollectionViewCell.self,
                                  forCellWithReuseIdentifier: MainScanCollectionViewCell.reuseID)
         collectionView?.register(SectionHeader.self, forSupplementaryViewOfKind:
-                                    UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseId)
+                                    UICollectionView.elementKindSectionHeader,
+                                 withReuseIdentifier: SectionHeader.reuseId)
         scrollView?.addSubview(collectionView ?? UICollectionView())
         collectionView?.delegate = self
         self.longPressGesture = UILongPressGestureRecognizer()
@@ -164,8 +168,9 @@ private extension MainScanViewController {
     private func createHeaderSection() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                 heightDimension: .estimated(1))
+        let elementKindsection = UICollectionView.elementKindSectionHeader
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                                        elementKind: UICollectionView.elementKindSectionHeader,
+                                                                        elementKind: elementKindsection,
                                                                         alignment: .top)
         return sectionHeader
     }
@@ -223,37 +228,19 @@ extension MainScanViewController {
 }
 // MARK: - Collection View Delegate
 extension MainScanViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
 }
 
+// MARK: - Gesture Delegate
 extension MainScanViewController: UIGestureRecognizerDelegate {
-    
-    
-    private func animateRotate(values: [CGFloat], duration: CGFloat, view: UIView) {
-        let animateKeyFramae = CAKeyframeAnimation(keyPath: #keyPath(CALayer.transform))
-        animateKeyFramae.values = values
-        animateKeyFramae.duration = duration
-        animateKeyFramae.isAdditive = true
-        animateKeyFramae.valueFunction = CAValueFunction(name: .rotateZ)
-        animateKeyFramae.repeatCount = .infinity
-        view.layer.add(animateKeyFramae, forKey: "spinAnimation")
-    }
-    
-    private func animateTabBar() {
-        UIView.animate(withDuration: 0.2) {
-            self.mainTabBar.addGroupButton?.alpha = 0
-            self.mainTabBar.addFileButton?.alpha = 0
-        } completion: { _ in
-            self.mainTabBar.addGroupButton?.isHidden = true
-            self.mainTabBar.addFileButton?.isHidden = true
-            let values: [CGFloat] = [0, 0.03 * 5.0, 0, 0.03 * -5.0, 0]
-            self.animateRotate(values: values, duration: 1.5, view: self.mainTabBar.editButton!)
-        }
-    }
-    
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard editState != .editing else { return false }
+        NotificationCenter.default.post(name: .changeEditingMode, object: nil)
         self.makeTapticResponse(style: .heavy)
         animateTabBar()
+        self.editState = .editing
         return true
     }
 }
@@ -265,12 +252,38 @@ extension MainScanViewController: TabBarProtocolDelegate {
     }
     
     func editButtonIsTapped() {
+        self.editState = (self.editState != nil && self.editState == .editing) ? .normal : .editing
+        NotificationCenter.default.post(name: .changeEditingMode, object: nil)
+        guard editState == .normal else {
+            self.animateTabBar()
+            return
+        }
         UIView.animate(withDuration: 0.2) {
             self.mainTabBar.editButton?.layer.removeAllAnimations()
             self.mainTabBar.addGroupButton?.isHidden = false
             self.mainTabBar.addFileButton?.isHidden = false
             self.mainTabBar.addGroupButton?.alpha = 1
             self.mainTabBar.addFileButton?.alpha = 1
+        }
+    }
+}
+
+// MARK: - Animations
+extension MainScanViewController {
+    private func animateTabBar() {
+        UIView.animate(withDuration: 0.2) {
+            self.mainTabBar.addGroupButton?.alpha = 0
+            self.mainTabBar.addFileButton?.alpha = 0
+            self.mainTabBar.editButton?.alpha = 0
+            let values: [CGFloat] = [0, 0.03 * 5.0, 0, 0.03 * -5.0, 0]
+            AnimationsService.animateRotate(values: values,
+                                            duration: 1.5, view: self.mainTabBar.editButton!)
+        } completion: { _ in
+            self.mainTabBar.addGroupButton?.isHidden = true
+            self.mainTabBar.addFileButton?.isHidden = true
+            UIView.animate(withDuration: 0.1) {
+                self.mainTabBar.editButton?.alpha = 1
+            }
         }
     }
 }
