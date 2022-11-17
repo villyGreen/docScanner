@@ -25,11 +25,12 @@
 		E6FB5E0E292613A2009DC7CC /* MainScanCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E0D292613A2009DC7CC /* MainScanCollectionViewCellViewModel.swift */; };
 		E6FB5E1029263DA8009DC7CC /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E0F29263DA8009DC7CC /* SectionHeader.swift */; };
 		E6FB5E152926441A009DC7CC /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E6FB5E142926441A009DC7CC /* SF-Pro-Display-Regular.otf */; };
-		E6FB5E1829264963009DC7CC /* TextGeneratorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E1729264963009DC7CC /* TextGeneratorService.swift */; };
 		E6FB5E1E29264E03009DC7CC /* SF-Pro-Display-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E6FB5E1D29264E03009DC7CC /* SF-Pro-Display-RegularItalic.otf */; };
 		E6FB5E22292651BA009DC7CC /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E21292651BA009DC7CC /* R.generated.swift */; };
 		E6FB5E24292651E5009DC7CC /* SF-Pro-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E6FB5E23292651E5009DC7CC /* SF-Pro-Display-Medium.otf */; };
 		E6FB5E262926630A009DC7CC /* TabBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E252926630A009DC7CC /* TabBarDelegate.swift */; };
+		E6FB5E2829268EA7009DC7CC /* AnimationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E2729268EA7009DC7CC /* AnimationsService.swift */; };
+		E6FB5E2A29269160009DC7CC /* Extension + NSNotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E2929269160009DC7CC /* Extension + NSNotificationName.swift */; };
 		F4BE364CCE64C3CF5B1D9FB2 /* Pods_TestTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 014C224F0E472BA5240F028F /* Pods_TestTask.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,11 +59,12 @@
 		E6FB5E0D292613A2009DC7CC /* MainScanCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScanCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		E6FB5E0F29263DA8009DC7CC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		E6FB5E142926441A009DC7CC /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
-		E6FB5E1729264963009DC7CC /* TextGeneratorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextGeneratorService.swift; sourceTree = "<group>"; };
 		E6FB5E1D29264E03009DC7CC /* SF-Pro-Display-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-RegularItalic.otf"; sourceTree = "<group>"; };
 		E6FB5E21292651BA009DC7CC /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		E6FB5E23292651E5009DC7CC /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Display-Medium.otf"; path = "../../../../../../../Library/Fonts/SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
 		E6FB5E252926630A009DC7CC /* TabBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarDelegate.swift; sourceTree = "<group>"; };
+		E6FB5E2729268EA7009DC7CC /* AnimationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationsService.swift; sourceTree = "<group>"; };
+		E6FB5E2929269160009DC7CC /* Extension + NSNotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + NSNotificationName.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 			children = (
 				E6FB5DE92924CC82009DC7CC /* Extension + UIView.swift */,
 				E6FB5E0929260BAF009DC7CC /* Extension + UIViewController.swift */,
+				E6FB5E2929269160009DC7CC /* Extension + NSNotificationName.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -266,7 +269,7 @@
 		E6FB5E1629264943009DC7CC /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E6FB5E1729264963009DC7CC /* TextGeneratorService.swift */,
+				E6FB5E2729268EA7009DC7CC /* AnimationsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -412,8 +415,9 @@
 			files = (
 				E6FB5E0829260937009DC7CC /* MainScanViewModel.swift in Sources */,
 				E6FB5DC62924C3D9009DC7CC /* MainScanViewController.swift in Sources */,
-				E6FB5E1829264963009DC7CC /* TextGeneratorService.swift in Sources */,
+				E6FB5E2A29269160009DC7CC /* Extension + NSNotificationName.swift in Sources */,
 				E6FB5E262926630A009DC7CC /* TabBarDelegate.swift in Sources */,
+				E6FB5E2829268EA7009DC7CC /* AnimationsService.swift in Sources */,
 				E6FB5DE12924C9FA009DC7CC /* ConstantHelper.swift in Sources */,
 				E6FB5DEA2924CC82009DC7CC /* Extension + UIView.swift in Sources */,
 				E6FB5DEC2924D33C009DC7CC /* RootWireFrame.swift in Sources */,
