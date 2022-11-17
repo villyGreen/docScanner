@@ -1,2 +1,2 @@
 # docScanner
-MVVVM + RxSwift
+MVVM + RxSwift
