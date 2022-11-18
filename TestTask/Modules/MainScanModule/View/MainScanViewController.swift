@@ -10,11 +10,14 @@ import Rswift
 import UIKit
 
 final class MainScanViewController: UIViewController {
-    // MARK: - Private properties
+    // MARK: - Private ui properties
     private var scrollView: UIScrollView?
     private var collectionView: UICollectionView?
     private var contentView: UIView?
     private var longPressGesture: UILongPressGestureRecognizer?
+    private var mainTabBar: TabBarViewController {
+        return (self.tabBarController as? TabBarViewController) ?? TabBarViewController()
+    }
     
     // MARK: ViewModel - Buisness Logic
     var viewModel: MainScanViewModel?
@@ -26,46 +29,19 @@ final class MainScanViewController: UIViewController {
     // MARK: - Private properties
     var editState: EditState?
     
-    private var mainTabBar: TabBarViewController {
-        return (self.tabBarController as? TabBarViewController) ?? TabBarViewController()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
         setupUI()
         setupCollectionViewDataSource()
         reloadData()
         setDelegate()
     }
-    
-    func createSnapshot() -> NSDiffableDataSourceSnapshot<Section, ScanDocument> {
-        return NSDiffableDataSourceSnapshot<Section, ScanDocument>()
-    }
-    
-    func reloadData() {
-        var snapShot = createSnapshot()
-        snapShot.appendSections([.list])
-        snapShot.appendItems([ScanDocument(), ScanDocument()], toSection: .list)
-        dataSource?.apply(snapShot, animatingDifferences: true)
-    }
-}
-
-// MARK: - ViewModel Logic
-private extension MainScanViewController {
-    func setupBindings() {
-        viewModel?.isError = { _ in
-            
-        }
-        
-        viewModel?.isLoading = { _ in
-            
-        }
-    }
 }
 
 // MARK: - UI
 private extension MainScanViewController {
+    
+    /// main func that contains all functions for setup view
     private func setupUI() {
         setupNavigationBar()
         setupScrollView()
@@ -75,6 +51,8 @@ private extension MainScanViewController {
 
 // MARK: - Naviagation
 private extension MainScanViewController {
+    
+    /// setup naviagation bar
     private func setupNavigationBar() {
         self.title = "Scans"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -88,13 +66,14 @@ private extension MainScanViewController {
     @objc
     private func settingsAction() {
         self.makeTapticResponse(style: .soft)
-        print("Settings")
     }
 }
 
 // MARK: - ScrollView
 private extension MainScanViewController {
+    /// scroll view setup
     private func setupScrollView() {
+        self.view.backgroundColor = .white
         self.scrollView = UIScrollView()
         guard let scrollView = self.scrollView else { return }
         scrollView.setTamic()
@@ -107,6 +86,14 @@ private extension MainScanViewController {
         contentView.setTamic()
         
         scrollView.addSubview(contentView)
+        scrollViewConstraints(scrollView: scrollView, contentView: contentView)
+    }
+    
+    /// scroll view constraints setup
+    /// - Parameters:
+    ///   - scrollView: source scroll view
+    ///   - contentView: source content view
+    private func scrollViewConstraints(scrollView: UIScrollView, contentView: UIView) {
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -126,26 +113,8 @@ private extension MainScanViewController {
 // MARK: - Collection View Layout
 private extension MainScanViewController {
     
-    private func setupCollectionView() {
-        let size = CGSize(width: self.view.frame.width, height: self.view.frame.height)
-        collectionView = UICollectionView(frame: CGRect(origin: .zero, size: size),
-                                          collectionViewLayout: setupCompositionalLayout())
-        collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView?.backgroundColor = .clear
-        collectionView?.register(MainScanCollectionViewCell.self,
-                                 forCellWithReuseIdentifier: MainScanCollectionViewCell.reuseID)
-        collectionView?.register(SectionHeader.self, forSupplementaryViewOfKind:
-                                    UICollectionView.elementKindSectionHeader,
-                                 withReuseIdentifier: SectionHeader.reuseId)
-        scrollView?.addSubview(collectionView ?? UICollectionView())
-        collectionView?.delegate = self
-        self.longPressGesture = UILongPressGestureRecognizer()
-        guard let longPressGesture = self.longPressGesture else { return }
-        longPressGesture.delegate = self
-        longPressGesture.minimumPressDuration = 0.3
-        collectionView?.addGestureRecognizer(longPressGesture)
-    }
-    
+    /// setup compositional collection view layout
+    /// - Returns: UICollectionViewLayout
     private func setupCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, _) ->
             NSCollectionLayoutSection? in
@@ -163,18 +132,8 @@ private extension MainScanViewController {
         return layout
         
     }
-    
-    // MARK: Create HeaderSection
-    private func createHeaderSection() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .estimated(1))
-        let elementKindsection = UICollectionView.elementKindSectionHeader
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                                        elementKind: elementKindsection,
-                                                                        alignment: .top)
-        return sectionHeader
-    }
-    
+    /// setup collection view layout
+    /// - Returns: NSCollectionLayoutSection
     private func setupLayout() -> NSCollectionLayoutSection {
         // itemSize -> item -> groupSize -> groups -> section
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
@@ -192,10 +151,68 @@ private extension MainScanViewController {
     }
 }
 
+// MARK: - Collection view setup
+extension MainScanViewController {
+    
+    /// create header sections func
+    /// - Returns: NSCollectionLayoutBoundarySupplementaryItem
+    private func createHeaderSection() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .estimated(1))
+        let elementKindsection = UICollectionView.elementKindSectionHeader
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                        elementKind: elementKindsection,
+                                                                        alignment: .top)
+        return sectionHeader
+    }
+    
+    /// setup collection view
+    private func setupCollectionView() {
+        let size = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+        collectionView = UICollectionView(frame: CGRect(origin: .zero, size: size),
+                                          collectionViewLayout: setupCompositionalLayout())
+        collectionView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView?.backgroundColor = .clear
+        collectionView?.register(MainScanCollectionViewCell.self,
+                                 forCellWithReuseIdentifier: MainScanCollectionViewCell.reuseID)
+        collectionView?.register(SectionHeader.self, forSupplementaryViewOfKind:
+                                    UICollectionView.elementKindSectionHeader,
+                                 withReuseIdentifier: SectionHeader.reuseId)
+        scrollView?.addSubview(collectionView ?? UICollectionView())
+        collectionView?.delegate = self
+        setupLongPressGesture()
+    }
+    
+    /// long press gesture setup
+    private func setupLongPressGesture() {
+        self.longPressGesture = UILongPressGestureRecognizer()
+        guard let longPressGesture = self.longPressGesture else { return }
+        longPressGesture.delegate = self
+        longPressGesture.minimumPressDuration = 0.3
+        collectionView?.addGestureRecognizer(longPressGesture)
+    }
+    
+    /// create snapshot
+    /// - Returns: NSDiffableDataSourceSnapshot<Section, ScanDocument>
+    func createSnapshot() -> NSDiffableDataSourceSnapshot<Section, ScanDocument> {
+        return NSDiffableDataSourceSnapshot<Section, ScanDocument>()
+    }
+    
+    /// reload data function
+    func reloadData() {
+        var snapShot = createSnapshot()
+        snapShot.appendSections([.list])
+        snapShot.appendItems([ScanDocument(), ScanDocument()], toSection: .list)
+        dataSource?.apply(snapShot, animatingDifferences: true)
+    }
+}
+
 // MARK: - Collection View DataSource
 extension MainScanViewController {
+    /// setup collection view data source
     private func setupCollectionViewDataSource() {
         // swiftlint:disable all
+        /// setup collection view cells
         dataSource = UICollectionViewDiffableDataSource<Section, ScanDocument>(collectionView:
                                                                                 collectionView ?? UICollectionView()) {
             (collectionView, indexPath, data) -> UICollectionViewCell? in
@@ -207,6 +224,7 @@ extension MainScanViewController {
                                           indexPath: indexPath)
             }
         }
+        /// setup collection view header
         self.dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                       withReuseIdentifier: SectionHeader.reuseId,
@@ -228,6 +246,10 @@ extension MainScanViewController {
 }
 // MARK: - Collection View Delegate
 extension MainScanViewController: UICollectionViewDelegate {
+    /// collection view delegate method
+    /// - Parameters:
+    ///   - collectionView: source collection view
+    ///   - indexPath: index path at selected row
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
     }
@@ -235,6 +257,10 @@ extension MainScanViewController: UICollectionViewDelegate {
 
 // MARK: - Gesture Delegate
 extension MainScanViewController: UIGestureRecognizerDelegate {
+    
+    /// handle gesture event
+    /// - Parameter gestureRecognizer: UIGestureRecognizer
+    /// - Returns: Bool
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard editState != .editing else { return false }
         NotificationCenter.default.post(name: .changeEditingMode, object: nil)
@@ -247,10 +273,13 @@ extension MainScanViewController: UIGestureRecognizerDelegate {
 
 // MARK: - TabBarDelegate
 extension MainScanViewController: TabBarProtocolDelegate {
+    
+    /// set delegates on viewController
     func setDelegate() {
         mainTabBar.tabBarDelegate = self
     }
     
+    /// activate/deactive editing mode with animate
     func editButtonIsTapped() {
         self.editState = (self.editState != nil && self.editState == .editing) ? .normal : .editing
         NotificationCenter.default.post(name: .changeEditingMode, object: nil)
@@ -270,6 +299,7 @@ extension MainScanViewController: TabBarProtocolDelegate {
 
 // MARK: - Animations
 extension MainScanViewController {
+    /// start animate when editing mode is active
     private func animateTabBar() {
         UIView.animate(withDuration: 0.2) {
             self.mainTabBar.addGroupButton?.alpha = 0

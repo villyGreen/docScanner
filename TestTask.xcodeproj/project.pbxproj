@@ -16,7 +16,6 @@
 		E6FB5DE12924C9FA009DC7CC /* ConstantHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DE02924C9FA009DC7CC /* ConstantHelper.swift */; };
 		E6FB5DE72924CAAF009DC7CC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DE62924CAAF009DC7CC /* TabBarViewController.swift */; };
 		E6FB5DEA2924CC82009DC7CC /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DE92924CC82009DC7CC /* Extension + UIView.swift */; };
-		E6FB5DEC2924D33C009DC7CC /* RootWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DEB2924D33C009DC7CC /* RootWireFrame.swift */; };
 		E6FB5DEF2925FE8A009DC7CC /* ScanDocumentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DEE2925FE8A009DC7CC /* ScanDocumentModel.swift */; };
 		E6FB5DF22925FF74009DC7CC /* MainScanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DF12925FF74009DC7CC /* MainScanCollectionViewCell.swift */; };
 		E6FB5DF52925FFFE009DC7CC /* MainScanViewSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5DF42925FFFE009DC7CC /* MainScanViewSetup.swift */; };
@@ -31,6 +30,7 @@
 		E6FB5E262926630A009DC7CC /* TabBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E252926630A009DC7CC /* TabBarDelegate.swift */; };
 		E6FB5E2829268EA7009DC7CC /* AnimationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E2729268EA7009DC7CC /* AnimationsService.swift */; };
 		E6FB5E2A29269160009DC7CC /* Extension + NSNotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E2929269160009DC7CC /* Extension + NSNotificationName.swift */; };
+		E6FB5E2C2927929C009DC7CC /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB5E2B2927929C009DC7CC /* AppCoordinator.swift */; };
 		F4BE364CCE64C3CF5B1D9FB2 /* Pods_TestTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 014C224F0E472BA5240F028F /* Pods_TestTask.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +50,6 @@
 		E6FB5DE02924C9FA009DC7CC /* ConstantHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantHelper.swift; sourceTree = "<group>"; };
 		E6FB5DE62924CAAF009DC7CC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E6FB5DE92924CC82009DC7CC /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
-		E6FB5DEB2924D33C009DC7CC /* RootWireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootWireFrame.swift; sourceTree = "<group>"; };
 		E6FB5DEE2925FE8A009DC7CC /* ScanDocumentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDocumentModel.swift; sourceTree = "<group>"; };
 		E6FB5DF12925FF74009DC7CC /* MainScanCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScanCollectionViewCell.swift; sourceTree = "<group>"; };
 		E6FB5DF42925FFFE009DC7CC /* MainScanViewSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScanViewSetup.swift; sourceTree = "<group>"; };
@@ -65,6 +64,7 @@
 		E6FB5E252926630A009DC7CC /* TabBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarDelegate.swift; sourceTree = "<group>"; };
 		E6FB5E2729268EA7009DC7CC /* AnimationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationsService.swift; sourceTree = "<group>"; };
 		E6FB5E2929269160009DC7CC /* Extension + NSNotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + NSNotificationName.swift"; sourceTree = "<group>"; };
+		E6FB5E2B2927929C009DC7CC /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +145,7 @@
 			children = (
 				E6FB5DC12924C3D9009DC7CC /* AppDelegate.swift */,
 				E6FB5DC32924C3D9009DC7CC /* SceneDelegate.swift */,
-				E6FB5DEB2924D33C009DC7CC /* RootWireFrame.swift */,
+				E6FB5E2B2927929C009DC7CC /* AppCoordinator.swift */,
 				E6FB5DDD2924C67A009DC7CC /* Supporting */,
 			);
 			path = Application;
@@ -420,7 +420,6 @@
 				E6FB5E2829268EA7009DC7CC /* AnimationsService.swift in Sources */,
 				E6FB5DE12924C9FA009DC7CC /* ConstantHelper.swift in Sources */,
 				E6FB5DEA2924CC82009DC7CC /* Extension + UIView.swift in Sources */,
-				E6FB5DEC2924D33C009DC7CC /* RootWireFrame.swift in Sources */,
 				E6FB5DC22924C3D9009DC7CC /* AppDelegate.swift in Sources */,
 				E6FB5E0A29260BAF009DC7CC /* Extension + UIViewController.swift in Sources */,
 				E6FB5DF22925FF74009DC7CC /* MainScanCollectionViewCell.swift in Sources */,
@@ -428,6 +427,7 @@
 				E6FB5DE72924CAAF009DC7CC /* TabBarViewController.swift in Sources */,
 				E6FB5E22292651BA009DC7CC /* R.generated.swift in Sources */,
 				E6FB5E1029263DA8009DC7CC /* SectionHeader.swift in Sources */,
+				E6FB5E2C2927929C009DC7CC /* AppCoordinator.swift in Sources */,
 				E6FB5DC42924C3D9009DC7CC /* SceneDelegate.swift in Sources */,
 				E6FB5DF52925FFFE009DC7CC /* MainScanViewSetup.swift in Sources */,
 				E6FB5DEF2925FE8A009DC7CC /* ScanDocumentModel.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ConstantsHelper {
+final class ConstantsHelper {
   
     // MARK: - TabBar
     static let tabBarButtonSize: CGFloat = 27.0

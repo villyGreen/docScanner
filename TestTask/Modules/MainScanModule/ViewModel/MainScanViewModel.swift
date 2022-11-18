@@ -26,16 +26,6 @@ final class MainScanViewModel {
         self.model = model
         self.useCase = useCase
     }
-
-    func fetchData() {
-      // Loading Started
-      self.isLoading?(true)
-
-      // Service Requests
-
-      // Loading Ended
-      self.isLoading?(false)
-    }
 }
 
 extension MainScanViewModel: MainScanViewModelProtocol {

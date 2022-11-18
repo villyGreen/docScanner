@@ -12,19 +12,20 @@ enum EditState {
     case normal
 }
 
-class MainScanCollectionViewCell: UICollectionViewCell, CellConfiguring {
-    let previewImage = UIImageView()
-    let containerView = UIView()
-    let checkButton = UIButton(type: .system)
+final class MainScanCollectionViewCell: UICollectionViewCell, CellConfiguring {
+    
+    private let previewImage = UIImageView()
+    private let containerView = UIView()
+    private let checkButton = UIButton(type: .system)
+    private var editState: EditState?
     static var reuseID = String(describing: MainScanCollectionViewCell.self)
-    var editState: EditState?
     
     override func prepareForReuse() {
         super.prepareForReuse()
         previewImage.image = nil
     }
     
-    var viewModel: MainScanCollectionViewCellViewModelProtocol? {
+    private var viewModel: MainScanCollectionViewCellViewModelProtocol? {
         didSet {
             DispatchQueue.main.async {
                 guard let viewModel = self.viewModel else { return }
@@ -33,6 +34,7 @@ class MainScanCollectionViewCell: UICollectionViewCell, CellConfiguring {
         }
     }
     
+    /// setup cell function
     private func setupCell() {
         previewImage.setTamic()
         containerView.setTamic()
@@ -50,6 +52,7 @@ class MainScanCollectionViewCell: UICollectionViewCell, CellConfiguring {
         checkButton.setImage(image, for: .normal)
     }
     
+    /// setup cells constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -71,12 +74,16 @@ class MainScanCollectionViewCell: UICollectionViewCell, CellConfiguring {
         self.setNeedsLayout()
     }
     
+    /// configure cell from data source
+    /// - Parameter value: any type value
     func configure<U>(value: U) where U: Hashable {
         self.previewImage.image = UIImage()
         self.previewImage.backgroundColor = .systemFill
         self.setNeedsLayout()
     }
     
+    /// draw function that contain animation logic for self
+    /// - Parameter rect: CGRect
     override func draw(_ rect: CGRect) {
         guard let editState = editState, editState == .editing else {
             self.containerView.layer.removeAllAnimations()

@@ -30,6 +30,7 @@ final class TabBarViewController: UITabBarController {
     var addFileButton: UIButton?
     var buttonsStackView: UIStackView?
     weak var tabBarDelegate: TabBarProtocolDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
@@ -68,6 +69,7 @@ private extension TabBarViewController {
         let buttonsConstant = ConstantsHelper.tabBarLeadingAndTrailingConstraint
         let buttonsTopConsraint = ConstantsHelper.tabBarTopConstraint
         let buttonRadius = ConstantsHelper.buttonOpacityRadius
+        
         NSLayoutConstraint.activate([
             tabBarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             tabBarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),

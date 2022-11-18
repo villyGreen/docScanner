@@ -14,7 +14,7 @@ struct HeaderContext {
     var headerAlpha: CGFloat
 }
 
-class SectionHeader: UICollectionReusableView {
+final class SectionHeader: UICollectionReusableView {
     
     static let reuseId = String(describing: SectionHeader.self)
     private let previewTitle = UILabel()
